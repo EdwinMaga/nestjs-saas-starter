@@ -60,4 +60,37 @@ export class AuthService {
       }),
     };
   }
+
+  async acceptInvite(data: {
+    token: string;
+    password: string;
+    name?: string;
+  }) {
+    const invite = await this.prisma.invitation.findUnique({
+      where: { token: data.token },
+    });
+
+    if (!invite || invite.accepted || invite.expiresAt < new Date()) {
+      throw new ConflictException('Invalid or expired invite');
+    }
+
+    const hashed = await bcrypt.hash(data.password, 10);
+
+    const user = await this.prisma.user.create({
+      data: {
+        email: invite.email,
+        password: hashed,
+        name: data.name,
+        role: invite.role,
+        organizationId: invite.organizationId,
+      },
+    });
+
+    await this.prisma.invitation.update({
+      where: { id: invite.id },
+      data: { accepted: true },
+    });
+
+    return this.signToken(user);
+  }
 }
