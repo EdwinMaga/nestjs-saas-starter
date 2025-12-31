@@ -4,6 +4,7 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
+import { CurrentOrg } from 'src/common/decorators/current-org.decorator';
 
 @ApiTags('Users')
 @ApiBearerAuth('access-token')
@@ -21,5 +22,17 @@ export class UsersController {
   @Get('admin')
   getAdminData() {
     return { message: 'Solo admins pueden ver esto' };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('org')
+  getOrgData(
+    @CurrentUser() user: any,
+    @CurrentOrg() orgId: string,
+  ) {
+    return {
+      user,
+      organizationId: orgId,
+    };
   }
 }
