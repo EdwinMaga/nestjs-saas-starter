@@ -20,7 +20,7 @@ export class AuthService {
       data: { email, password: hashed, name },
     });
 
-    return this.signToken(user.id, user.email);
+    return this.signToken(user.id, user.email, user.role);
   }
 
   async login(email: string, password: string) {
@@ -30,14 +30,15 @@ export class AuthService {
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) throw new UnauthorizedException('Invalid credentials');
 
-    return this.signToken(user.id, user.email);
+    return this.signToken(user.id, user.email, user.role);
   }
 
-  private signToken(userId: string, email: string) {
+  private signToken(userId: string, email: string, role: string) {
     return {
       access_token: this.jwtService.sign({
         sub: userId,
         email,
+        role,
       }),
     };
   }
