@@ -35,7 +35,7 @@ model Organization {
   users       User[]
   invitations Invitation[]
   plan             Plan     @default(FREE)
-  stripeCustomerId String?
+  stripeCustomerId String?  @unique
   stripeSubId      String?
   createdAt   DateTime     @default(now())
 }
