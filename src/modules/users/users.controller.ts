@@ -1,10 +1,13 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards, Post } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { CurrentOrg } from 'src/common/decorators/current-org.decorator';
+import { PlanGuard } from '../../common/guards/plan.guard';
+import { RequirePlan } from '../../common/decorators/plan.decorator';
+import { Plan } from '../../common/enums/plan.enum';
 
 @ApiTags('Users')
 @ApiBearerAuth('access-token')
@@ -34,5 +37,12 @@ export class UsersController {
       user,
       organizationId: orgId,
     };
+  }
+
+  @UseGuards(JwtAuthGuard, PlanGuard)
+  @RequirePlan(Plan.PRO)
+  @Post('invite')
+  inviteUser() {
+    return 'ok';
   }
 }
