@@ -24,11 +24,19 @@ enum Role {
   ADMIN
 }
 
+enum Plan {
+  FREE
+  PRO
+}
+
 model Organization {
   id          String       @id @default(uuid())
   name        String
   users       User[]
   invitations Invitation[]
+  plan             Plan     @default(FREE)
+  stripeCustomerId String?
+  stripeSubId      String?
   createdAt   DateTime     @default(now())
 }
 
