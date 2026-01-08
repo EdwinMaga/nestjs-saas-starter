@@ -1,8 +1,25 @@
+![Node](https://img.shields.io/badge/node-18.x-green)
+![NestJS](https://img.shields.io/badge/nestjs-backend-red)
+![Stripe](https://img.shields.io/badge/payments-stripe-blue)
+![License](https://img.shields.io/badge/license-MIT-lightgrey)
+
 # 🚀 NestJS SaaS Starter
 
 Starter backend profesional para construir aplicaciones **SaaS multi-tenant** con **NestJS**, **Prisma** y **Stripe**.
 
 Este proyecto provee una base sólida para productos B2B modernos, incluyendo autenticación, organizaciones, control por planes y facturación recurrente.
+
+---
+
+## 🌍 Live Demo (Producción)
+
+El backend está desplegado y accesible públicamente.
+
+- **Base URL:** https://nestjs-saas-starter.onrender.com
+- **Health Check:** https://nestjs-saas-starter.onrender.com/health
+- **Swagger Docs:** https://nestjs-saas-starter.onrender.com/docs
+
+> ⚠️ El proyecto es solo backend. Algunos endpoints requieren autenticación JWT y un plan activo.
 
 ---
 
